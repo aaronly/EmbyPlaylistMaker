@@ -1,0 +1,62 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    ext.gradle_version = '3.0.0'
+    ext.kotlin_version = '1.2.21'
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.google.com' }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+// Define versions in a single place
+ext {
+    // Sdk and tools
+    minSdk_version = 21
+    targetSdk_version = 26
+    compileSdk_version = 26
+    buildTools_version = '27.0.2'
+
+    // Android architecture
+    room_version = '1.0.0'
+    lifecycle_version = '1.1.0'
+    supportLibrary_version = '27.0.2'
+    constraintLayout_version = '1.0.2'
+
+    // App dependencies
+    guava_version = '23.1-jre'
+    junit_version = '4.12'
+    mockito_version = '2.10.0'
+    mockito_kotlin_version = '1.5.0'
+    runner_version = '0.5'
+    espresso_version = '3.0.1'
+    rxJava_version = '2.1.4'
+    rxAndroid_version = '2.0.1'
+    rxKotlin_version = '2.1.0'
+    rxPreferences_version = '2.0.0-RC3'
+    butterknife_version = '8.8.1'
+    androidNetworking_version = '1.0.0'
+    anko_version = '0.10.2'
+    koin_version = '0.8.2'
+    gson_version = '2.8.2'
+
+    // dev tool libraries
+    stetho_version = '1.5.0'
+    leakcanary_version = '1.5.4'
+}

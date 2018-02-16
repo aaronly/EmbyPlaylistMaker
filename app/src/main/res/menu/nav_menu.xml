@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+  <item
+    android:id="@+id/nav_users"
+    android:enabled="true"
+    android:icon="@drawable/ic_user"
+    android:title="@string/nav_action_users"
+    app:showAsAction="always|withText"/>
+
+  <item
+    android:id="@+id/nav_playlists"
+    android:enabled="true"
+    android:icon="@drawable/ic_playlists"
+    android:title="@string/nav_action_playlists"
+    app:showAsAction="ifRoom|withText"/>
+
+  <item
+    android:id="@+id/nav_settings"
+    android:enabled="true"
+    android:icon="@drawable/ic_settings"
+    android:title="@string/nav_action_settings"
+    app:showAsAction="ifRoom|withText"/>
+</menu> 
