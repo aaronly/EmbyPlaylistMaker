@@ -26,6 +26,9 @@ class PlaylistsFragment : BaseFragment(), PlaylistsContract.View, KoinComponent 
     @BindString(R.string.playlists_none_found)
     lateinit var noPlaylistsFound: String
 
+    @BindString(R.string.bundle_key_playlist_list)
+    lateinit var playlistListBundleKey: String
+
     override val presenter: PlaylistsContract.Presenter by inject()
     private val adapter: PlaylistsAdapter by inject()
     private val layoutManager: RecyclerView.LayoutManager by inject()
@@ -38,14 +41,27 @@ class PlaylistsFragment : BaseFragment(), PlaylistsContract.View, KoinComponent 
         return container?.inflate(R.layout.playlists_fragment)
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        outState?.putParcelableArray(playlistListBundleKey, adapter.playlists.toTypedArray())
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val playlistList = savedInstanceState?.getParcelableArray(playlistListBundleKey)
+        playlistList?.forEach { playlist ->
+            if (playlist is Playlist) adapter.addPlaylist(playlist)
+        }
+    }
+
     override fun onResume() {
         super.onResume()
-        if (presenter.view == null) {
-            presenter.attachView(this)
-        }
 
         initializeRecyclerView()
 
+        if (presenter.view == null) {
+            presenter.attachView(this)
+        }
     }
 
     override fun onPause() {

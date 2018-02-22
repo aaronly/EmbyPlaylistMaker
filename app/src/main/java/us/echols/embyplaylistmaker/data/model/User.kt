@@ -4,6 +4,8 @@ import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import java.io.UnsupportedEncodingException
 import java.security.MessageDigest
@@ -23,7 +25,7 @@ class User(
         @SerializedName("PrimaryImageTag")
         @ColumnInfo(name = "image_id")
         val imageId: String?
-) {
+) : Parcelable {
 
     @SerializedName("AccessToken")
     var token: String? = null
@@ -37,6 +39,19 @@ class User(
 
     @ColumnInfo(name = "last_active")
     var lastActive: Boolean = false
+
+    constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readByte() != 0.toByte(),
+            parcel.readString()
+    ) {
+        token = parcel.readString()
+        pw = parcel.readString()
+        password = parcel.readString()
+        passwordMd5 = parcel.readString()
+        lastActive = parcel.readByte() != 0.toByte()
+    }
 
     @Ignore
     constructor(id: String, name: String)
@@ -75,6 +90,32 @@ class User(
                 formatter.format("%02x", b)
             }
             return formatter.toString()
+        }
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(name)
+        parcel.writeByte(if (hasPassword) 1 else 0)
+        parcel.writeString(imageId)
+        parcel.writeString(token)
+        parcel.writeString(pw)
+        parcel.writeString(password)
+        parcel.writeString(passwordMd5)
+        parcel.writeByte(if (lastActive) 1 else 0)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<User> {
+        override fun createFromParcel(parcel: Parcel): User {
+            return User(parcel)
+        }
+
+        override fun newArray(size: Int): Array<User?> {
+            return arrayOfNulls(size)
         }
     }
 

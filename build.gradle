@@ -29,8 +29,8 @@ task clean(type: Delete) {
 ext {
     // Sdk and tools
     minSdk_version = 21
-    targetSdk_version = 26
-    compileSdk_version = 26
+    targetSdk_version = 27
+    compileSdk_version = 27
     buildTools_version = '27.0.2'
 
     // Android architecture

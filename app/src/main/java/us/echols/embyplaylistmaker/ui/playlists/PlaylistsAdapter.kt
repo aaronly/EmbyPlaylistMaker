@@ -34,6 +34,11 @@ class PlaylistsAdapter constructor(private val context: Context) : BaseAdapter<V
         return playlists.size
     }
 
+    fun addPlaylist(playlist: Playlist) {
+        playlists.add(playlist)
+        notifyItemInserted(playlists.indexOf(playlist))
+    }
+
     fun replacePlaylists(playlists: List<Playlist>) {
         this.playlists = playlists.toMutableList()
         notifyDataSetChanged()

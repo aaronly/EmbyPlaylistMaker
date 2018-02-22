@@ -54,4 +54,7 @@
   <string name="user_name_placeholder">User Name</string>
   <string name="playlist_name_placeholder">Playlist Name</string>
 
+  <string name="bundle_key_user_list">user_list</string>
+  <string name="bundle_key_playlist_list">playlist_list</string>
+
 </resources>

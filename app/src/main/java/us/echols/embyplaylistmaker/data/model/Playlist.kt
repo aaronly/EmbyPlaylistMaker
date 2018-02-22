@@ -3,6 +3,8 @@ package us.echols.embyplaylistmaker.data.model
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
+import android.os.Parcel
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
@@ -13,10 +15,15 @@ class Playlist(
         override val id: String,
         @SerializedName("Name")
         override val name: String
-) : EmbyItem {
+) : EmbyItem, Parcelable {
 
     @Ignore
     private var songs: MutableList<Song> = mutableListOf()
+
+    constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readString()
+    )
 
 //    private fun copySongList(songs: List<Song>): List<Song> {
 //        val output = ArrayList<Song>()
@@ -65,5 +72,24 @@ class Playlist(
         if (songs != other.songs) return false
 
         return true
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
+        parcel.writeString(name)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Playlist> {
+        override fun createFromParcel(parcel: Parcel): Playlist {
+            return Playlist(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Playlist?> {
+            return arrayOfNulls(size)
+        }
     }
 }

@@ -22,7 +22,6 @@ class MainActivity : Activity(), MyLogger {
 
     @BindView(R.id.bottom_nav_bar)
     lateinit var bottomNavBar: BottomNavigationView
-    private var navBarSelectedItem: Int = 0
 
     private lateinit var viewUnbinder: Unbinder
 
@@ -31,11 +30,7 @@ class MainActivity : Activity(), MyLogger {
     private val playlistsFragment: PlaylistsContract.View by inject()
     private val settingsFragment: SettingsFragment by inject()
 
-    private val usersFragmentKey = "users_fragment"
-    private val playlistsFragmentKey = "playlists_fragment"
-    private val settingsFragmentKey = "settings_fragment"
-
-    private var activeUser: User? = null
+    var activeUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +44,6 @@ class MainActivity : Activity(), MyLogger {
             fragments.add(playlistsFragment as Fragment)
             fragments.add(settingsFragment)
             addFragment(R.id.content_frame, usersFragment as Fragment)
-        } else {
-            //bottomNavBar.selectedItemId = navBarSelectedItem
-//            val fragment = fragmentManager.getFragment(savedInstanceState, "activeFragment")
-//            replaceFragment(R.id.content_frame, fragment)
-//            bottomNavBar.selectedItemId = savedInstanceState.getInt("bottom_nav_position")
         }
 
         bottomNavBar.setOnNavigationItemSelectedListener listener@ { item ->
@@ -78,23 +68,16 @@ class MainActivity : Activity(), MyLogger {
         }
     }
 
-    fun userSelected(user: User) {
+    fun userSelected(user: User, redirectToPlaylists: Boolean) {
         activeUser = user
-        bottomNavBar.selectedItemId = R.id.nav_playlists
+        if (redirectToPlaylists) {
+            bottomNavBar.selectedItemId = R.id.nav_playlists
+        }
     }
-//    override fun onPause() {
-////        presenter.detachView()
-//        super.onPause()
-//    }
 
 //    override fun onResume() {
 //        super.onResume()
-//
-////        hideSystemUI()
-//
-////        if (presenter.view == null) {
-////            presenter.attachView(this)
-////        }
+//        hideSystemUI()
 //    }
 
 //    private fun hideSystemUI() {
@@ -102,17 +85,6 @@ class MainActivity : Activity(), MyLogger {
 //                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or // show bars with swipe
 //                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or // don't resize status bar area
 //                View.SYSTEM_UI_FLAG_LAYOUT_STABLE) // stabilize the UI
-//    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        //navBarSelectedItem = bottomNavBar.selectedItemId
-    }
-
-//    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-//        super.onRestoreInstanceState(savedInstanceState)
-//        val fragment = fragmentManager.getFragment(savedInstanceState, "activeFragment")
-//        replaceFragment(R.id.content_frame, fragment)
 //    }
 
     override fun onDestroy() {

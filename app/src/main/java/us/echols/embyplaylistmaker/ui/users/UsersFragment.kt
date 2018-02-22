@@ -26,12 +26,12 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
 
-    @BindString(R.string.login_dialog_username_hint)
-    lateinit var usernameHint: String
+    //    @BindString(R.string.login_dialog_username_hint)
+//    lateinit var usernameHint: String
     @BindString(R.string.login_dialog_password_hint)
     lateinit var passwordHint: String
-    @BindString(R.string.login_dialog_no_id)
-    lateinit var noId: String
+//    @BindString(R.string.login_dialog_no_id)
+//    lateinit var noId: String
 
     @BindString(R.string.select_active_user)
     lateinit var selectUserText: String
@@ -41,11 +41,12 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
     @BindString(R.string.setting_server_default)
     lateinit var serverDefault: String
 
+    @BindString(R.string.bundle_key_user_list)
+    lateinit var userListBundleKey: String
+
     override val presenter: UsersContract.Presenter by inject()
     private val adapter: UsersAdapter by inject()
     private val layoutManager: RecyclerView.LayoutManager by inject()
-
-    private var recyclerViewState: Bundle? = null
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -57,7 +58,15 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
+        outState?.putParcelableArray(userListBundleKey, adapter.users.toTypedArray())
+    }
 
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val userList = savedInstanceState?.getParcelableArray(userListBundleKey)
+        userList?.forEach { user ->
+            if (user is User) adapter.addUser(user)
+        }
     }
 
     override fun onResume() {
@@ -68,18 +77,10 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
         if (presenter.view == null) {
             presenter.attachView(this)
         }
-
-//        recyclerViewState?.let { vs ->
-//            layoutManager.onRestoreInstanceState(
-//                    vs.getParcelable<Parcelable>("recycle_view_state")
-//            )
-//        }
     }
 
     override fun onPause() {
         super.onPause()
-//        recyclerViewState = Bundle()
-//        recyclerViewState?.putParcelable("recycle_view_state", layoutManager.onSaveInstanceState())
         recyclerView.layoutManager = null
     }
 
@@ -119,7 +120,7 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
 
     override fun tokenFound(user: User) {
         if (activity is MainActivity) {
-            (activity as MainActivity).userSelected(user)
+            (activity as MainActivity).userSelected(user, false)
         }
     }
 
@@ -162,30 +163,33 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
         val user = adapter.getUser(position)
         adapter.setActiveUser(position)
         presenter.onUserClicked(user)
+        if (activity is MainActivity) {
+            (activity as MainActivity).userSelected(user, true)
+        }
     }
 
-    // TODO: 1/15/2018 is this needed?
-    private fun getUsername() {
-        alert {
-            var editText: EditText? = null
-            customView {
-                linearLayout {
-                    padding = dip(16)
-                    editText = editText {
-                        singleLine = true
-                        hint = usernameHint
-                    }.lparams(width = matchParent)
-                }
-            }
-            okButton { dialog ->
-                val username = editText?.text.toString()
-                val user = User(noId, username, false, null)
-                user.lastActive = true
-//                usersFragment.addUser(user)
-                presenter.updateActiveUser(user)
-                dialog.dismiss()
-            }
-            cancelButton { dialog -> dialog.cancel() }
-        }.show()
-    }
+
+//    private fun getUsername() {
+//        alert {
+//            var editText: EditText? = null
+//            customView {
+//                linearLayout {
+//                    padding = dip(16)
+//                    editText = editText {
+//                        singleLine = true
+//                        hint = usernameHint
+//                    }.lparams(width = matchParent)
+//                }
+//            }
+//            okButton { dialog ->
+//                val username = editText?.text.toString()
+//                val user = User(noId, username, false, null)
+//                user.lastActive = true
+////                usersFragment.addUser(user)
+//                presenter.updateActiveUser(user)
+//                dialog.dismiss()
+//            }
+//            cancelButton { dialog -> dialog.cancel() }
+//        }.show()
+//    }
 }
