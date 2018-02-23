@@ -20,10 +20,10 @@ class PlaylistsPresenter(
             loadPlaylists(true)
         }
 
-//    override fun attachView(view: PlaylistsContract.View) {
-//        super.attachView(view)
-//        loadPlaylists(true)
-//    }
+    override fun attachView(view: PlaylistsContract.View) {
+        super.attachView(view)
+        loadPlaylists(true)
+    }
 
     override fun loadPlaylists(forceUpdate: Boolean) {
         val user = this.user

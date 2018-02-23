@@ -176,10 +176,7 @@ class EmbyRepository internal constructor(
     }
 
     override fun getUserPassword(user: User, callback: EmbyDataSource.GetUserPasswordCallback) {
-        if (::activeUser.isInitialized &&
-                activeUser.hasPassword &&
-                activeUser.pw != null &&
-                !activeUser.pw.equals("")) {
+        if (isActiveUserPasswordInMemory()) {
             verbose("User password $inMemory")
             callback.onUserPasswordFound(activeUser.pw ?: "")
         } else if (!activeUser.hasPassword) {
@@ -204,6 +201,13 @@ class EmbyRepository internal constructor(
         }
     }
 
+    private fun isActiveUserPasswordInMemory(): Boolean {
+        return ::activeUser.isInitialized &&
+                activeUser.hasPassword &&
+                activeUser.pw != null &&
+                !activeUser.pw.equals("")
+    }
+
     override fun updateUserPassword(user: User, password: String) {
         verbose("$updating user password for ${user.name} $inLocal")
         activeUser = user
@@ -218,7 +222,7 @@ class EmbyRepository internal constructor(
 
     override fun getAccessToken(user: User, callback: EmbyDataSource.GetAccessTokenCallback) {
 
-        if (!tokenIsOutOfDate && this::activeUser.isInitialized) {
+        if (!tokenIsOutOfDate && ::activeUser.isInitialized) {
             val token = activeUser.token
             if (token != null && token.isNotEmpty()) {
                 verbose("Access token $inMemory")

@@ -26,12 +26,8 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
     @BindView(R.id.recyclerView)
     lateinit var recyclerView: RecyclerView
 
-    //    @BindString(R.string.login_dialog_username_hint)
-//    lateinit var usernameHint: String
     @BindString(R.string.login_dialog_password_hint)
     lateinit var passwordHint: String
-//    @BindString(R.string.login_dialog_no_id)
-//    lateinit var noId: String
 
     @BindString(R.string.select_active_user)
     lateinit var selectUserText: String
@@ -47,6 +43,8 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
     override val presenter: UsersContract.Presenter by inject()
     private val adapter: UsersAdapter by inject()
     private val layoutManager: RecyclerView.LayoutManager by inject()
+
+    private var wasClicked = false
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -120,8 +118,9 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
 
     override fun tokenFound(user: User) {
         if (activity is MainActivity) {
-            (activity as MainActivity).userSelected(user, false)
+            (activity as MainActivity).userSelected(user, wasClicked)
         }
+        wasClicked = false
     }
 
     override fun getNewServerAddress(oldAddress: String) {
@@ -163,33 +162,6 @@ class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogge
         val user = adapter.getUser(position)
         adapter.setActiveUser(position)
         presenter.onUserClicked(user)
-        if (activity is MainActivity) {
-            (activity as MainActivity).userSelected(user, true)
-        }
+        wasClicked = true
     }
-
-
-//    private fun getUsername() {
-//        alert {
-//            var editText: EditText? = null
-//            customView {
-//                linearLayout {
-//                    padding = dip(16)
-//                    editText = editText {
-//                        singleLine = true
-//                        hint = usernameHint
-//                    }.lparams(width = matchParent)
-//                }
-//            }
-//            okButton { dialog ->
-//                val username = editText?.text.toString()
-//                val user = User(noId, username, false, null)
-//                user.lastActive = true
-////                usersFragment.addUser(user)
-//                presenter.updateActiveUser(user)
-//                dialog.dismiss()
-//            }
-//            cancelButton { dialog -> dialog.cancel() }
-//        }.show()
-//    }
 }
