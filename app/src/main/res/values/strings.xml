@@ -22,7 +22,7 @@
   <string name="setting_port_key">server_port</string>
   <string name="setting_port_title">Server Port</string>
 
-  <string name="server_emby_server_address">Enter the address of your Emby server:</string>
+  <!--<string name="server_emby_server_address">Enter the address of your Emby server:</string>-->
 
   <!--<string name="server_not_found_title">Server Not Found</string>-->
   <!--<string name="server_not_found_content_pre">A server could not be found at\u0020</string>-->
@@ -40,21 +40,21 @@
   <!--<string name="select_user_dialog_title">Select a user:</string>-->
   <!--<string name="select_user_dialog_other_user">Login as another user</string>-->
 
-  <string name="select_active_user">Select which user to login to server as.</string>
+  <!--<string name="select_active_user">Select which user to login to server as.</string>-->
 
-  <string name="login_dialog_username_hint">username</string>
-  <string name="login_dialog_password_hint">password</string>
-  <string name="login_dialog_no_id">no id</string>
+  <!--<string name="login_dialog_username_hint">username</string>-->
+  <!--<string name="login_dialog_password_hint">password</string>-->
+  <!--<string name="login_dialog_no_id">no id</string>-->
 
-  <string name="playlists_none_found">
-  Could not find any playlists on the device or on the server.</string>
+  <!--<string name="playlists_none_found">-->
+  <!--Could not find any playlists on the device or on the server.</string>-->
   <!--<string name="users_none_found">-->
   <!--Could not find any users on the device or on the server.</string>-->
 
   <string name="user_name_placeholder">User Name</string>
   <string name="playlist_name_placeholder">Playlist Name</string>
 
-  <string name="bundle_key_user_list">user_list</string>
-  <string name="bundle_key_playlist_list">playlist_list</string>
+  <!--<string name="bundle_key_user_list">user_list</string>-->
+  <!--<string name="bundle_key_playlist_list">playlist_list</string>-->
 
 </resources>

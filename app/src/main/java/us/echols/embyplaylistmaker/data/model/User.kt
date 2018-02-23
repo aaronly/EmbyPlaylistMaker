@@ -12,6 +12,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
 
+@Suppress("MemberVisibilityCanBePrivate")
 @Entity(tableName = "users")
 class User(
         @PrimaryKey

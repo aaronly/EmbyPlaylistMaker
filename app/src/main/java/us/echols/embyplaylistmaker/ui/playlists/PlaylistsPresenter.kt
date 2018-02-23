@@ -16,7 +16,6 @@ class PlaylistsPresenter(
     override var user: User? = null
         set(user) {
             field = user
-            // TODO: 12/29/2017 not sure this should be true
             loadPlaylists(true)
         }
 

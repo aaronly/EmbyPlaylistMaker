@@ -21,6 +21,7 @@ import us.echols.embyplaylistmaker.util.KoinComponent
 import us.echols.embyplaylistmaker.util.MyLogger
 import us.echols.embyplaylistmaker.util.inflate
 
+@Suppress("MemberVisibilityCanBePrivate")
 class UsersFragment : BaseFragment(), UsersContract.View, KoinComponent, MyLogger {
 
     @BindView(R.id.recyclerView)

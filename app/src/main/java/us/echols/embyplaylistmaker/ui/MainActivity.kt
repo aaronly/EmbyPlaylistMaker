@@ -18,6 +18,7 @@ import us.echols.embyplaylistmaker.util.MyLogger
 import us.echols.embyplaylistmaker.util.addFragment
 import us.echols.embyplaylistmaker.util.replaceFragment
 
+@Suppress("MemberVisibilityCanBePrivate")
 class MainActivity : Activity(), MyLogger {
 
     @BindView(R.id.bottom_nav_bar)
@@ -74,18 +75,6 @@ class MainActivity : Activity(), MyLogger {
             bottomNavBar.selectedItemId = R.id.nav_playlists
         }
     }
-
-//    override fun onResume() {
-//        super.onResume()
-//        hideSystemUI()
-//    }
-
-//    private fun hideSystemUI() {
-//        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN or // hide status bar
-//                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or // show bars with swipe
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or // don't resize status bar area
-//                View.SYSTEM_UI_FLAG_LAYOUT_STABLE) // stabilize the UI
-//    }
 
     override fun onDestroy() {
         viewUnbinder.unbind()
